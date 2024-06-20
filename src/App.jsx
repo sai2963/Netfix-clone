@@ -1,16 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './index.css'
+import React from 'react';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Login from './components/Login';
+import Browser from './components/Browser';
+import Signup from './components/Signup';
+import Header from './components/Header';
+import './index.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const AppLayout = () => {
   return (
     <div>
-      <h1 className="text-3xl font-bold underline text-red-600">Netflix Clone</h1>
+      
+      <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default App
+const appRouter = createBrowserRouter([
+  {
+    path: '/',
+    element: <AppLayout />,
+    children: [
+      {
+        path: '/',
+        element: <Login />
+      },
+      {
+        path: '/browse',
+        element: <Browser />
+      },
+      {
+        path: '/signup',
+        element:<Signup/>
+      }
+    ]
+  }
+]);
+
+const App = () => {
+  return <RouterProvider router={appRouter} />;
+};
+
+export default App;
