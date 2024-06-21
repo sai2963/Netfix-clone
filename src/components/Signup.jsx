@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Header from "./Header";
 
 const Signup = () => {
@@ -38,9 +39,9 @@ const Signup = () => {
             </button>
             <p className="text-gray-500 text-sm">
               Already Have an account?{" "}
-              <a href="/" className="text-white hover:underline">
+              <Link to="/" className="text-white hover:underline">
                 Sign in now
-              </a>
+              </Link>
               .
             </p>
           </form>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Header from "./Header";
 
 const Login = () => {
@@ -29,7 +30,7 @@ const Login = () => {
               Sign In
             </button>
             <p className="text-gray-500 text-sm">
-              New to Netflix? <a href="/signup" className="text-white hover:underline">Sign up now</a>.
+              New to Netflix? <Link to="/signup" className="text-white hover:underline">Sign up now</Link>.
             </p>
           </form>
         </div>
