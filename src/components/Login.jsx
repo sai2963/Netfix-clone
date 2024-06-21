@@ -2,17 +2,32 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import { useRef, useState } from "react";
 import Validate from "../Utils/Validate";
-
+import {  signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Utils/Firebase";
 const Login = () => {
-  const email = useRef("")
-  const password =useRef("")
-  const [errMesg,setErrMsg]=useState(null)
-  const handleButtonClick =()=>{
-    const message = Validate(email.current.value ,password.current.value)
-    setErrMsg(message)
+  const email = useRef("");
+  const password = useRef("");
+  const [errMesg, setErrMsg] = useState(null);
+  const handleButtonClick = () => {
+    const message = Validate(email.current.value, password.current.value);
+    setErrMsg(message);
+    if (message) return;
+
     
-  }
-  
+signInWithEmailAndPassword(auth, email.current.value, password.current.value)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user)
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    setErrMsg(errorCode+" "+errorMessage)
+  });
+  };
+
   return (
     <div className="relative h-screen">
       <Header />
@@ -23,7 +38,10 @@ const Login = () => {
       />
       <div className="absolute inset-0 bg-black bg-opacity-60 flex justify-center items-center">
         <div className="bg-black bg-opacity-75 p-8 rounded-lg shadow-2xl max-w-md w-full">
-          <form onSubmit={(e)=>e.preventDefault()} className="flex flex-col items-center space-y-6">
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="flex flex-col items-center space-y-6"
+          >
             <h2 className="text-3xl font-semibold text-white">Sign In</h2>
             <input
               ref={email}
@@ -32,7 +50,7 @@ const Login = () => {
               className="p-3 w-full bg-gray-900 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600"
             />
             <input
-            ref={password}
+              ref={password}
               type="password"
               placeholder="Password"
               className="p-3 w-full bg-gray-900 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600"
@@ -40,11 +58,16 @@ const Login = () => {
             <p className="text-red-500 font-bold">{errMesg}</p>
             <button
               className="p-3 w-full bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
-              onClick={handleButtonClick}            >
+              onClick={handleButtonClick}
+            >
               Sign In
             </button>
             <p className="text-gray-500 text-sm">
-              New to Netflix? <Link to="/signup" className="text-white hover:underline">Sign up now</Link>.
+              New to Netflix?{" "}
+              <Link to="/signup" className="text-white hover:underline">
+                Sign up now
+              </Link>
+              .
             </p>
           </form>
         </div>
