@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { useRef, useState } from "react";
 import Validate from "../Utils/Validate";
 import {  signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Utils/Firebase";
 const Login = () => {
+  const navigate=useNavigate()
   const email = useRef("");
   const password = useRef("");
   const [errMesg, setErrMsg] = useState(null);
@@ -19,6 +20,7 @@ signInWithEmailAndPassword(auth, email.current.value, password.current.value)
     // Signed in 
     const user = userCredential.user;
     console.log(user)
+    navigate("/browse")
     // ...
   })
   .catch((error) => {

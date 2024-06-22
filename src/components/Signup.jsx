@@ -1,12 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { useRef, useState } from "react";
 import Validate from "../Utils/Validate";
 import { auth } from "../Utils/Firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { addUser } from "../Utils/UserSlice";
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const navigate =useNavigate();
   const [errMsg, setErrMsg] = useState("");
+  const name=useRef("")
   const email = useRef("");
   const password = useRef("");
   const handleButttonClick = () => {
@@ -23,7 +28,21 @@ const Signup = () => {
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
+        updateProfile(user, {
+          displayName: name.current.value, photoURL: "https://cdn.freebiesupply.com/logos/large/2x/netflix-2-logo-png-transparent.png"
+        }).then(() => {
+          navigate("/browse")
+          const {uid,email,displayName,photoURL} = auth.currentUser;
+        dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
+          // Profile updated!
+          // ...
+        }).catch((error) => {
+          setErrMsg(error.message)
+          // An error occurred
+          // ...
+        });
         console.log(user);
+        
         // ...
       })
       .catch((error) => {
@@ -49,6 +68,7 @@ const Signup = () => {
           >
             <h2 className="text-3xl font-semibold text-white">Sign Up</h2>
             <input
+            ref={name}
               type="text"
               placeholder="UserName"
               className="p-3 w-full bg-gray-900 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-600"
