@@ -20,7 +20,7 @@ signInWithEmailAndPassword(auth, email.current.value, password.current.value)
     // Signed in 
     const user = userCredential.user;
     console.log(user)
-    navigate("/browse")
+    
     // ...
   })
   .catch((error) => {

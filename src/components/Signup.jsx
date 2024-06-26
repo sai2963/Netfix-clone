@@ -31,7 +31,7 @@ const Signup = () => {
         updateProfile(user, {
           displayName: name.current.value, photoURL: "https://cdn.freebiesupply.com/logos/large/2x/netflix-2-logo-png-transparent.png"
         }).then(() => {
-          navigate("/browse")
+          
           const {uid,email,displayName,photoURL} = auth.currentUser;
         dispatch(addUser({uid:uid,email:email,displayName:displayName,photoURL:photoURL}))
           // Profile updated!
