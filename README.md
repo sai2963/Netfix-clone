@@ -17,4 +17,4 @@ Currently, two official plugins are available:
    - NetflixGPT
     - Search Bar
     - Movie Suggestions
-   
+   # Netflix-Clone-2.0
