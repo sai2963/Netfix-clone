@@ -1,12 +1,18 @@
+import useNowPlaying from "../hooks/useNowPlaying";
 import Header from "./Header";
+import MainContainer from "./MainContainer";
+import SecondaryContainer from "./SecondaryContainer";
 
-const Browser =()=>{
-    return(
+
+const Browser = () => {
+    useNowPlaying();
+    return (
         <div>
-            <Header/>
-            <h1>Browse</h1>
+            <Header />
+            <MainContainer/>
+            <SecondaryContainer/>
         </div>
-    )
-}
+    );
+};
 
 export default Browser;
